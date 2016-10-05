@@ -1,0 +1,7 @@
+{
+    "parent": "block/crafting_table",
+    "variants": {
+        "normal":[{}],
+        "inventory":[{}]
+    }
+}
