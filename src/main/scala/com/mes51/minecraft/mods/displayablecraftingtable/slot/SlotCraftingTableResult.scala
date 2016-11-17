@@ -6,9 +6,10 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 
 class SlotCraftingTableResult(player: EntityPlayer, eventHandler: Container, _inventory: IInventory, craftingResult: IInventory, index: Int, x: Int, y: Int) extends SlotCrafting(player, new InventoryCraftingMatrix(eventHandler, _inventory), craftingResult, index, x, y) {
-  override def onPickupFromSlot(playerIn: EntityPlayer, stack: ItemStack): Unit = {
-    super.onPickupFromSlot(playerIn, stack)
+  override def func_190901_a(playerIn: EntityPlayer, stack: ItemStack): ItemStack = {
+    super.func_190901_a(playerIn, stack)
     eventHandler.onCraftMatrixChanged(inventory)
+    stack
   }
 
   override def onSlotChanged(): Unit = {

@@ -30,17 +30,17 @@ trait HasInventory extends IInventory {
   override def removeStackFromSlot(index: Int): ItemStack = {
     val item = inventory(index)
     inventory = inventory.updated(index, None)
-    item.orNull
+    item.getOrElse(ItemStack.field_190927_a)
   }
 
   override def decrStackSize(index: Int, count: Int): ItemStack = {
     val splitResult = inventory(index).map(_.split(count)).map(x => (Some(x._1), Some(x._2))).getOrElse((None, None))
     inventory = inventory.updated(index, splitResult._2)
     markDirty()
-    splitResult._1.orNull
+    splitResult._1.getOrElse(ItemStack.field_190927_a)
   }
 
-  override def getStackInSlot(index: Int): ItemStack = inventory(index).orNull
+  override def getStackInSlot(index: Int): ItemStack = inventory(index).getOrElse(ItemStack.field_190927_a)
 
   override def getSizeInventory: Int = inventory.size
 
@@ -53,4 +53,6 @@ trait HasInventory extends IInventory {
   override def getField(id: Int): Int = 0
 
   override def setField(id: Int, value: Int): Unit = { }
+
+  override def func_191420_l: Boolean = inventory.forall(_.forall(_.func_190926_b))
 }

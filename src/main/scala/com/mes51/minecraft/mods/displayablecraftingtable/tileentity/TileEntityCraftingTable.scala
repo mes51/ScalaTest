@@ -20,7 +20,7 @@ class TileEntityCraftingTable extends TileEntity with TileEntityInventory {
 
   private val craftingItemStack: (Inventory => Option[ItemStack]) = Cache.cacheLast((inventory: Inventory) => {
     val craftingMatrix = new InventoryCrafting(new ContainerDummy(), 3, 3)
-    inventory.zipWithIndex.foreach(x => craftingMatrix.setInventorySlotContents(x._2, x._1.orNull))
+    inventory.zipWithIndex.foreach(x => craftingMatrix.setInventorySlotContents(x._2, x._1.getOrElse(ItemStack.field_190927_a)))
     Option(CraftingManager.getInstance.findMatchingRecipe(craftingMatrix, worldObj))
   })
 

@@ -42,23 +42,23 @@ class ContainerCraftingTable(playerInventory: InventoryPlayer, tileEntity: TileE
       case _ => if (!mergeItemStack(source, 10, 46, false)) return None
     }
 
-    if (source.stackSize == 0) {
-      slot.putStack(null)
+    if (source.func_190916_E == 0) {
+      slot.putStack(ItemStack.field_190927_a)
     } else {
       slot.onSlotChanged()
     }
 
-    if (source.stackSize == itemStack.stackSize) {
+    if (source.func_190916_E == itemStack.func_190916_E) {
       None
     } else {
-      slot.onPickupFromSlot(player, source)
+      slot.func_190901_a(player, source)
       Some(itemStack)
     }
   }
 
   override def onCraftMatrixChanged(inventoryIn: IInventory): Unit = {
     val craftingMatrix = new InventoryCrafting(new ContainerDummy(), 3, 3)
-    tileEntity.inventory.zipWithIndex.foreach(x => craftingMatrix.setInventorySlotContents(x._2, x._1.orNull))
+    tileEntity.inventory.zipWithIndex.foreach(x => craftingMatrix.setInventorySlotContents(x._2, x._1.getOrElse(ItemStack.field_190927_a)))
     craftingResult.setInventorySlotContents(0, CraftingManager.getInstance.findMatchingRecipe(craftingMatrix, playerInventory.player.worldObj))
   }
 
@@ -69,7 +69,7 @@ class ContainerCraftingTable(playerInventory: InventoryPlayer, tileEntity: TileE
     Option(inventorySlots.get(index))
       .filter(_.getHasStack)
       .flatMap(s => transferStack(s, index, playerIn))
-      .orNull
+      .getOrElse(ItemStack.field_190927_a)
   }
 
   override def canMergeSlot(stack: ItemStack, slotIn: Slot): Boolean =

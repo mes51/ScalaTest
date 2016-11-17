@@ -25,7 +25,7 @@ object BlockCraftingTable extends BlockContainer(Material.WOOD) {
 
   override def createNewTileEntity(worldIn: World, meta: Int): TileEntity = new TileEntityCraftingTable
 
-  override def onBlockActivated(worldIn: World, pos: BlockPos, state: IBlockState, playerIn: EntityPlayer, hand: EnumHand, heldItem: ItemStack, side: EnumFacing, hitX: Float, hitY: Float, hitZ: Float): Boolean = {
+  override def onBlockActivated(worldIn: World, pos: BlockPos, state: IBlockState, playerIn: EntityPlayer, hand: EnumHand, heldItem: EnumFacing, side: Float, hitX: Float, hitY: Float): Boolean = {
     if (!worldIn.isRemote) {
       playerIn.openGui(DisplayableCraftingTable, GuiIds.CRAFTING_TABLE, worldIn, pos.getX, pos.getY, pos.getZ)
     }
@@ -49,8 +49,8 @@ object BlockCraftingTable extends BlockContainer(Material.WOOD) {
       world.rand.nextDouble() * 0.8 - 0.4
     )
 
-    val count = world.rand.nextInt(Math.max(item.stackSize / 10, 1)) + 1
-    val stackSize = item.stackSize / count
+    val count = world.rand.nextInt(Math.max(item.func_190916_E / 10, 1)) + 1
+    val stackSize = item.func_190916_E / count
     0.to(count).foldLeft(item)({
       case (i, _) =>
         val (drop, memo) = i.split(stackSize)

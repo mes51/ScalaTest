@@ -8,7 +8,7 @@ import com.mes51.minecraft.mods.displayablecraftingtable.util.InstanceOf._
 class Inventory(items: Seq[Option[ItemStack]]) extends TraversableOnce[Option[ItemStack]] with Iterable[Option[ItemStack]] {
   def apply(index: Int): Option[ItemStack] = items(index)
 
-  def updated(index: Int, item: Option[ItemStack]): Inventory = new Inventory(items.updated(index, item.filter(_.stackSize > 0)))
+  def updated(index: Int, item: Option[ItemStack]): Inventory = new Inventory(items.updated(index, item.filter(_.func_190916_E > 0)))
 
   override def toTraversable: Traversable[Option[ItemStack]] = items.toTraversable
 
@@ -62,6 +62,6 @@ object Inventory {
     val itemData = tagCompound.getTag(ITEM_DATA_TAG).as[NBTTagList]
     val size = tagCompound.getInteger(INVENTORY_SIZE_TAG)
 
-    new Inventory((0 until size).map(itemData.getCompoundTagAt).map(n => if (n.equals(EMPTY_ITEM)) None else Some(n)).map(_.map(ItemStack.loadItemStackFromNBT)))
+    new Inventory((0 until size).map(itemData.getCompoundTagAt).map(n => if (n.equals(EMPTY_ITEM)) None else Some(n)).map(_.map(new ItemStack(_))))
   }
 }
